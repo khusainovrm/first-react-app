@@ -1,6 +1,8 @@
 import React from 'react';
 import Todo from './Todo/Todo'
+import AddTodo from './Todo/AddTodo'
 import Context from './context'
+
 
 function App() {
   const [todos, setTodos] = React.useState([
@@ -24,13 +26,25 @@ function App() {
     }))
   }
 
+  function addTodo(value) {
+    const add = [{
+      id: Date.now(),
+      completed: false,
+      title: value
+    }]
+    setTodos(todos.concat(add))
+  }
+
   return (
     <Context.Provider value={{ onToggle }}>
       <div  className='wrapper'>
         <div className = 'title'> 
           <h1>React project</h1> 
         </div>
-        {todos.length ? <Todo todos = { todos } removeItem = { removeItem } /> : <p> Nope tasks </p>}
+
+        <AddTodo onCreate = {addTodo}/>
+
+        {todos.length ? <Todo todos = { todos } removeItem = { removeItem } /> : <p> No tasks </p>}
       
       
     </div>
@@ -38,5 +52,7 @@ function App() {
  
   )
 }
+
+
 
 export default App;
