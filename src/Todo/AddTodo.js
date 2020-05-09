@@ -3,18 +3,35 @@ import PropTypes from 'prop-types'
 
 
  function AddTodo ({onCreate}) {
-  const [value, setValue] = useState('')
+
+
+  function useInputValue (defaultValue = '') {
+    const [value, setValue] = useState(defaultValue)
+    return {
+      bind: {
+        value,
+        onChange: event => setValue(event.target.value)
+      },
+      clear: () => setValue(''),
+      value: () => value  
+    }
+  }
+
+  const input = useInputValue()
 
   function createTodo (event) {
     event.preventDefault()
-    onCreate(value)
-    setValue('')
+    if (input.value().trim()) {
+      onCreate(input.value())
+      input.clear()
+    }
+
   }
 
   return (
     <div>
       <form onSubmit={createTodo}>
-        <input value={value} onChange={event => setValue(event.target.value)}/>
+        <input {...input.bind}/>
         <button type='submit'> Create </button>
       </form>
 
