@@ -17,6 +17,7 @@ function TodoItem ({todo, idx, removeItem}) {
       <span className={classes.join(' ')}>
         <input 
           type='checkbox'
+          checked={todo.completed}
           onChange= { onToggle.bind(null, todo.id) }
         /> 
         <strong>{ idx + 1 }</strong> &nbsp;  { todo.title } 

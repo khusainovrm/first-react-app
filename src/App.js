@@ -2,16 +2,21 @@ import React from 'react';
 import Todo from './Todo/Todo'
 import AddTodo from './Todo/AddTodo'
 import Context from './context'
+import Loader from './Loader'
 
 
 function App() {
-  const [todos, setTodos] = React.useState([
-    {id:1, completed: false, title: "First task"},
-    {id:2, completed: false, title: "Second task"},
-    {id:3, completed: false, title: "Third task"},
-    {id:4, completed: false, title: "Forth task"} 
-    ])
+  const [todos, setTodos] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
 
+  React.useEffect(()=> {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
+    .then(response => response.json())
+    .then(state => {
+      setTodos(state)
+      setLoading(false)
+    })
+  }, [])
 
   function removeItem (id) {
     setTodos(todos.filter(todo => todo.id !== id))
@@ -41,10 +46,15 @@ function App() {
         <div className = 'title'> 
           <h1>React project</h1> 
         </div>
-
+        
         <AddTodo onCreate = {addTodo}/>
+        { loading && <Loader /> }
 
-        {todos.length ? <Todo todos = { todos } removeItem = { removeItem } /> : <p> No tasks </p>}
+        { todos.length 
+        ? (<Todo todos = { todos } removeItem = { removeItem } /> ) 
+        : loading
+          ? null
+          : (<p> No tasks </p> )}
       
       
     </div>

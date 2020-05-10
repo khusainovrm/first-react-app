@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 
+const form = {
+
+}
 
  function AddTodo ({onCreate}) {
-
 
   function useInputValue (defaultValue = '') {
     const [value, setValue] = useState(defaultValue)
@@ -30,9 +32,12 @@ import PropTypes from 'prop-types'
 
   return (
     <div>
-      <form onSubmit={createTodo}>
-        <input {...input.bind}/>
-        <button type='submit'> Create </button>
+      <form onSubmit = { createTodo }>
+        <div className = 'inputForm' >
+          <input {...input.bind} style={{ width: '300px', marginRight: '.5rem' }} />
+          <button type = 'submit'> Create </button>
+        </div>
+
       </form>
 
     </div>
