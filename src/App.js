@@ -1,9 +1,10 @@
 import React from 'react';
 import Todo from './Todo/Todo'
-import AddTodo from './Todo/AddTodo'
 import Context from './context'
 import Loader from './Loader'
+import Modal from './Modal/Modal'
 
+const AddTodo = React.lazy(() => import('./Todo/AddTodo'))
 
 function App() {
   const [todos, setTodos] = React.useState([])
@@ -45,9 +46,16 @@ function App() {
       <div  className='wrapper'>
         <div className = 'title'> 
           <h1>React project</h1> 
+
         </div>
-        
-        <AddTodo onCreate = {addTodo}/>
+          <Modal />
+
+        <React.Suspense fallback = { <p>Loading...</p> } >
+          <AddTodo onCreate = {addTodo}/>
+        </React.Suspense>
+
+
+
         { loading && <Loader /> }
 
         { todos.length 
